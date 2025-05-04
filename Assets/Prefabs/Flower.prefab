@@ -170,10 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92b5f17cc8b5004abd55a6f0bbd6dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForce: 2
-  destroyPositionX: -100
-  rotationSpeedMin: 15
-  rotationSpeedMax: 60
   materials:
   - {fileID: 2100000, guid: 4954596ef3a43974eae173fa771911ec, type: 2}
   - {fileID: 2100000, guid: d465823be413b984fa71f0446fb01ac2, type: 2}
@@ -185,3 +181,13 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 922ea251b34b46e42b16799d294b7ab2, type: 2}
   - {fileID: 2100000, guid: a342866a3a0caa143856f2ce096ce5ed, type: 2}
   - {fileID: 2100000, guid: e99a4b0856f4bbb40959509289fe8482, type: 2}
+  baseMoveForce: 1
+  minMoveForce: 0.2
+  maxMoveForce: 1.7
+  minChangeInterval: 0.5
+  maxChangeInterval: 2
+  verticalAmplitude: 4
+  verticalFrequency: 0.1
+  rotationSpeedMin: 15
+  rotationSpeedMax: 60
+  destroyPositionX: -100

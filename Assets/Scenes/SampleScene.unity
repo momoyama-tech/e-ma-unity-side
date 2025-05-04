@@ -158,7 +158,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.49865216, g: 0.49865216, b: 0.49865216, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -175,7 +175,7 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.43
+    x: 0.44
     y: 0
     width: 1
     height: 1
@@ -245,12 +245,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flowerPrefab: {fileID: 4629581055582433245, guid: 9822ff56ebdba9b46945ede3cc00f875, type: 3}
   minSpawnTime: 0.1
-  maxSpawnTime: 0.2
-  maxFlowers: 100
+  maxSpawnTime: 1
+  maxFlowers: 200
   spawnAreaHeight: 90
   spawnPositionX: 60
-  minScale: 2
-  maxScale: 5
+  minScale: 3
+  maxScale: 6
 --- !u!4 &183096043
 Transform:
   m_ObjectHideFlags: 0
@@ -396,7 +396,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.20754701, g: 0.20754701, b: 0.20754701, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -416,7 +416,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 0.9
+    height: 0.91
   near clip plane: 0.3
   far clip plane: 141
   field of view: 23.251268
@@ -500,7 +500,7 @@ MonoBehaviour:
   flowerPrefab: {fileID: 3867683976009536234, guid: 5ae35c71a12ed2d47b9f6a760b17bf20, type: 3}
   spawnPositionX: 60
   spawnAreaHeight: 95
-  spawnPositionZ: 0.04
+  spawnPositionZ: -5
   minSpawnZ: 0
   maxSpawnZ: 0
   randomizeZ: 0
