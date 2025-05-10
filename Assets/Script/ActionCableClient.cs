@@ -46,7 +46,7 @@ public class ActionCableClient : MonoBehaviour
                     return;
                 }
 
-                // < ‚Æ > ‚ğæ‚èœ‚¢‚ÄƒNƒŠ[ƒ“‚È URL ‚É
+                // < ‚Æ > ‚ğæ‚èœ‚­
                 string rawUrl = illustrationToken.ToString().Trim();
                 string cleanUrl = rawUrl.TrimStart('<').TrimEnd('>');
 

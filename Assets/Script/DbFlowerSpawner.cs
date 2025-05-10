@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -42,48 +43,63 @@ public class DbFlowerSpawner : MonoBehaviour
         {
             // URL キューが空なら待機
             while (!cableClient.HasFlowerUrl())
+            {
                 yield return null;
+            }
 
             // キューから次の URL を取り出し
             string url = cableClient.DequeueFlowerUrl();
 
             // 画像をダウンロード
-            var req = UnityWebRequestTexture.GetTexture(url);
+            UnityWebRequest req = UnityWebRequestTexture.GetTexture(url);
             yield return req.SendWebRequest();
 
             if (req.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError($"[DbFlowerSpawner] ダウンロード失敗: {req.error}");
+                yield return null;
                 continue;
             }
 
-            // Texture2D → Sprite 生成
-            Texture2D tex = ((DownloadHandlerTexture)req.downloadHandler).texture;
-            Sprite sprite = Sprite.Create(
-                tex,
-                new Rect(0, 0, tex.width, tex.height),
-                new Vector2(0.5f, 0.5f)
-            );
+            try
+            {
+                // Texture2D → Sprite 生成
+                Texture2D tex = ((DownloadHandlerTexture)req.downloadHandler).texture;
+                Sprite sprite = Sprite.Create(
+                    tex,
+                    new Rect(0, 0, tex.width, tex.height),
+                    new Vector2(0.5f, 0.5f)
+                );
 
-            // Y 位置ランダム
-            float y = Random.Range(-spawnAreaHeight / 2f, spawnAreaHeight / 2f);
+                // Y 位置ランダム
+                float y = UnityEngine.Random.Range(-spawnAreaHeight / 2f, spawnAreaHeight / 2f);
 
-            // Z 位置を 固定 or ランダム で選択
-            float z = randomizeZ
-                ? Random.Range(minSpawnZ, maxSpawnZ)
-                : spawnPositionZ;
+                // Z 位置を 固定 or ランダム で選択
+                float z = randomizeZ
+                    ? UnityEngine.Random.Range(minSpawnZ, maxSpawnZ)
+                    : spawnPositionZ;
 
-            // 最終的な生成位置
-            Vector3 pos = new Vector3(spawnPositionX, y, z);
+                // 最終的な生成位置
+                Vector3 pos = new Vector3(spawnPositionX, y, z);
 
-            // プレハブを生成し、Sprite をセット
-            var go = Instantiate(flowerPrefab, pos, Quaternion.identity);
-            var sr = go.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.sprite = sprite;
-            else
-                Debug.LogWarning("[DbFlowerSpawner] FlowerPrefab に SpriteRenderer がありません。");
+                // プレハブを生成し、Sprite をセット
+                var go = Instantiate(flowerPrefab, pos, Quaternion.identity);
+                var sr = go.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.sprite = sprite;
+                }
+                else
+                {
+                    Debug.LogWarning("[DbFlowerSpawner] FlowerPrefab に SpriteRenderer がありません。");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[DbFlowerSpawner] 例外発生: {ex.Message}\n{ex.StackTrace}");
+            }
 
+            // 次のフレームまで待機
             yield return null;
         }
     }
