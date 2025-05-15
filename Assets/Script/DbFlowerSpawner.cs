@@ -43,23 +43,47 @@ public class DbFlowerSpawner : MonoBehaviour
         {
             // URL キューが空なら待機
             while (!cableClient.HasFlowerUrl())
-            {
                 yield return null;
-            }
 
             // キューから次の URL を取り出し
             string url = cableClient.DequeueFlowerUrl();
+
+            // 【追加】どのオブジェクトがどの URL をリクエストしているかログ出力
+            Debug.Log($"[DbFlowerSpawner] ダウンロード開始 → Spawner={gameObject.name}, URL={url}");
 
             // 画像をダウンロード
             UnityWebRequest req = UnityWebRequestTexture.GetTexture(url);
             yield return req.SendWebRequest();
 
+            // 失敗したら詳細ログを出して次へ
             if (req.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"[DbFlowerSpawner] ダウンロード失敗: {req.error}");
-                yield return null;
+                // 取得ヘッダー
+                var headers = req.GetResponseHeaders();
+                string headerLog = "";
+                if (headers != null)
+                {
+                    foreach (var kv in headers)
+                        headerLog += $"{kv.Key}: {kv.Value}\n";
+                }
+
+                // レスポンスボディ（HTMLなど）を文字列で取得
+                string body = "";
+                try { body = req.downloadHandler.text; }
+                catch { body = "(非テキストレスポンス)"; }
+
+                Debug.LogError(
+                    $"[DbFlowerSpawner] ダウンロード失敗：\n" +
+                    $"  Spawner:  {gameObject.name}\n" +
+                    $"  URL:      {req.url}\n" +
+                    $"  Status:   HTTP {(long)req.responseCode}\n" +
+                    $"  Error:    {req.error}\n" +
+                    $"  Headers:\n{headerLog}\n" +
+                    $"  Body:\n{body}"
+                );
                 continue;
             }
+
 
             try
             {
